@@ -2,7 +2,7 @@
 
 namespace SecureItem.Migrations
 {
-    public partial class Creating : Migration
+    public partial class Initialize : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -18,7 +18,8 @@ namespace SecureItem.Migrations
                     AssetCategory = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Danger = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DangerAncor = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DangerAction = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    DangerAction = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Category = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {

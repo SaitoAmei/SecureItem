@@ -27,7 +27,7 @@ namespace SecureItem.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogIn(LoginUserModel model)
         {
             var user = _context.Users.Any(x => x.Login == model.UserName && x.Passwors == model.Password);

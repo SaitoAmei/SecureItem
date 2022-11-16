@@ -23,20 +23,38 @@ namespace SecureItem.Controllers
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Search(IFormCollection collection)
         {
-            var a1= collection["query"].ToString();
-            var a2 =collection["type"].ToString();
-            var model = _context.IntegritySecureData.Where(x => x.Danger.Contains(collection["query"].ToString()) && x.Category == collection["type"].ToString()).ToList();
+            var model = new List<IntegritySecureData>();
+            if (string.IsNullOrEmpty(collection["query"].ToString()))
+                {
+                 model = _context.IntegritySecureData.Where(x => x.Category == collection["type"].ToString()).ToList();
+
+            }
+            else 
+            {
+                 model = _context.IntegritySecureData.Where(x => x.Danger.Contains(collection["query"].ToString()) && x.Category == collection["type"].ToString()).ToList(); 
+            }
+
             if (model.Any())
             {
-                //var qq = collection["type"];
                 return View(model);
             }
             else
             {
                 return View("Index");
             }
+        }
+
+        [HttpGet]
+
+        public string _dataInit(int id)
+        {
+            var model = _context.IntegritySecureData.FirstOrDefault(x => x.dangerId == id).DangerAction;
+            ViewBag.listForModal = model.Split("U+002E").ToList();
+            return model;
+
         }
 
         [HttpGet]

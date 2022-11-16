@@ -46,7 +46,7 @@
     </header>
 
     <br />
-    <a href="https://cooltext.com">
+    <a href="#">
         <img src="https://images.cooltext.com/5627831.png" width="494" height="161" alt="Gazik StoreSecurity Item" />
     </a>
     <br />
@@ -102,30 +102,26 @@
         <tbody>
             @foreach (var item in Model)
             {
+                <tr>
             <td>@Html.DisplayFor(modelItem => item.NameOfAsset)</td>
             <td>@Html.DisplayFor(modelItem => item.AssetOwner)</td>
             <td>@Html.DisplayFor(modelItem => item.AssetLocation)</td>
             <td>@Html.DisplayFor(modelItem => item.AssetCategory)</td>
             <td>@Html.DisplayFor(modelItem => item.Danger)</td>
             <td>@Html.DisplayFor(modelItem => item.DangerAncor)</td>
-            <td>@Html.DisplayFor(modelItem => item.DangerAction)</td>
-            }
-        <tr>
-            <td>Tiger Nixon</td>
-            <td>System Architect</td>
-            <td>Edinburgh</td>
-            <td>61</td>
-            <td>2011/04/25</td>
-            <td>$320,800</td>
-        </tr>
-        <tr>
-            <td>Garrett Winters</td>
-            <td>Accountant</td>
-            <td>Tokyo</td>
-            <td>63</td>
-            <td>2011/07/25</td>
-            <td>$170,750</td>
-        </tr>
+            <td>
+                <div>
+                <input hidden id= "id" type="text" value= @Html.DisplayFor(modelItem => item.dangerId)>
+                <div class="buttonfor">
+                <button type="button" id="trig" class="btn btn-primary">
+                    <i class="fas fa-gem"></i>
+                </button>
+                </div>
+                </div>
+            </td>
+            
+            </tr>
+        }
         </tbody>
         <tfoot>
             <th class="th-sm">
@@ -152,7 +148,67 @@
             </tr>
         </tfoot>
     </table>
+                <!-- Modal -->
+            <div class="modal top fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" data-mdb-backdrop="true" data-mdb-keyboard="true">
+              <div class="modal-dialog modal-xl  modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Danger Action</h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                                         <table id="selectedColumn" class="table table-bordered border-primary" cellspacing="0" width="100%">
+                                                <tbody>
+                                                    <div class ="some">
+
+                                                    </div>
+                                                </tbody>
+                                            </table>
+                                </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-mdb-dismiss="modal">
+                      Close
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <input hidden name="data" id="data"/>
     <script type="text/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.0.0/mdb.min.js"></script>
+            <script src="https://ajax.aspnetcdn.com/ajax/jQuery/jquery-3.2.1.min.js"></script>
 </body>
 </html>
+<script>
+
+    $('.buttonfor').on('click', function(e){
+        
+        var id = $(this).parent().find("input[type=text]").val();;
+         $.ajax({
+        url: "/Admin/_dataInit",
+        type: 'get',
+        data: { Id: id},
+        success: function (data) {
+            $('#data').empty();
+             $('#data').val(data);
+             inter();
+
+
+        }
+    });  
+
+
+    });
+    function inter (){
+                let data = $('#data').val();
+                let arr = data.split('.');
+                $('.some').empty();
+                Array.prototype.forEach.call(arr,elem =>{
+                    $('.some').append(`<tr class=".bg-secondary.bg-gradient"><td>${elem}</td></tr><tr><td>--------------------------------------------------------------------------------------------------------------------------------------------</td></tr>`);})
+                $('.modal-body').css('overflow', 'auto');
+                $('.some').css('overflow', 'auto');
+                $('#exampleModal').modal("show");
+    };
+    
+    
+    </script>

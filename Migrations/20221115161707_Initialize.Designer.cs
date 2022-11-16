@@ -9,8 +9,8 @@ using SecureItem.Data;
 namespace SecureItem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221107194405_Creating")]
-    partial class Creating
+    [Migration("20221115161707_Initialize")]
+    partial class Initialize
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -36,6 +36,10 @@ namespace SecureItem.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("AssetOwner")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Category")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
